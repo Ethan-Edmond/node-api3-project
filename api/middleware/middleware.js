@@ -17,7 +17,7 @@ function validateUserId(req, res, next) {
         next();
       } else {
         res.status(404).json({
-          message: 'The user with the specified id does not exist'
+          message: 'user not found'
         });
       }
     })
@@ -29,9 +29,13 @@ function validateUserId(req, res, next) {
 }
 
 function validateUser(req, res, next) {
-  // DO YOUR MAGIC
-  console.log('validated user');
-  next();
+  if (req.body.name) {
+    next();
+  } else {
+    res.status(400).json({
+      message: 'missing required name field'
+    });
+  }
 }
 
 function validatePost(req, res, next) {

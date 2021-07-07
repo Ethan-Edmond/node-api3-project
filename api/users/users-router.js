@@ -24,8 +24,6 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', validateUserId, (req, res) => {
-  // RETURN THE USER OBJECT
-  // this needs a middleware to verify user id
   Users.getById(req.params.id)
     .then(user => {
       res.status(200).json(user);
