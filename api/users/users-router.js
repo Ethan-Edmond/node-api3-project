@@ -26,9 +26,15 @@ router.get('/', (req, res) => {
 router.get('/:id', validateUserId, (req, res) => {
   // RETURN THE USER OBJECT
   // this needs a middleware to verify user id
-  res.status(200).json({
-    message: `get user with id ${req.params.id}`
-  });
+  Users.getById(req.params.id)
+    .then(user => {
+      res.status(200).json(user);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err.message
+      });
+    });
 });
 
 router.post('/', validateUser, (req, res) => {

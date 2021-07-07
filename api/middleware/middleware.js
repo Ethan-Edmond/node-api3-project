@@ -1,3 +1,5 @@
+const Users = require('../users/users-model');
+
 function logger(req, res, next) {
   console.log("----- Logger -----");
   console.log("Req Method:", req.method);
@@ -9,8 +11,21 @@ function logger(req, res, next) {
 }
 
 function validateUserId(req, res, next) {
-  console.log('validated userId');
-  next();
+  Users.getById(req.params.id)
+    .then(user => {
+      if(user) {
+        next();
+      } else {
+        res.status(404).json({
+          message: 'The user with the specified id does not exist'
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err.message
+      });
+    });
 }
 
 function validateUser(req, res, next) {
