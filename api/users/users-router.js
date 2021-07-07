@@ -64,8 +64,6 @@ router.put('/:id', validateUserId, validateUser, (req, res) => {
 });
 
 router.delete('/:id', validateUserId, (req, res) => {
-  // RETURN THE FRESHLY DELETED USER OBJECT
-  // this needs a middleware to verify user id
   const { id } = req.params;
   Users.getById(id)
     .then(user => {
@@ -87,12 +85,15 @@ router.delete('/:id', validateUserId, (req, res) => {
 });
 
 router.get('/:id/posts', validateUserId, (req, res) => {
-  // RETURN THE ARRAY OF USER POSTS
-  // this needs a middleware to verify user id
-  res.status(200).json({
-    message: `got all of user ${req.params.id}'s posts`,
-    body: req.body
-  });
+  Users.getUserPosts(req.params.id)
+    .then(posts => {
+      res.status(200).json(posts);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err.message
+      });
+    });
 });
 
 router.post('/:id/posts', validateUserId, validatePost, (req, res) => {
