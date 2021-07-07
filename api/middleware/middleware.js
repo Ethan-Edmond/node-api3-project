@@ -9,15 +9,20 @@ function logger(req, res, next) {
 }
 
 function validateUserId(req, res, next) {
-  // DO YOUR MAGIC
+  console.log('validated userId');
+  next();
 }
 
 function validateUser(req, res, next) {
   // DO YOUR MAGIC
+  console.log('validated user');
+  next();
 }
 
 function validatePost(req, res, next) {
   // DO YOUR MAGIC
+  console.log('validated post');
+  next();
 }
 
 // do not forget to expose these functions to other modules
