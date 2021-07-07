@@ -97,15 +97,19 @@ router.get('/:id/posts', validateUserId, (req, res) => {
 });
 
 router.post('/:id/posts', validateUserId, validatePost, (req, res) => {
-  // RETURN THE NEWLY CREATED USER POST
-  // this needs a middleware to verify user id
-  // and another middleware to check that the request body is valid
-  res.status(201).json({
-    message: `Added post to user ${req.params.id}`,
-    body: req.body
-  });
+  const postObj = {
+    user_id: req.params.id,
+    text: req.body.text
+  };
+  Posts.insert(postObj)
+    .then(resY => {
+      res.status(201).json(resY);
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: err.message
+      });
+    });
 });
-
-// do not forget to export the router
 
 module.exports = router;
