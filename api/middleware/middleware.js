@@ -30,7 +30,22 @@ function validateUserId(req, res, next) {
 
 function validateUser(req, res, next) {
   if (req.body.name) {
-    next();
+    Users.get()
+      .then(users => {
+        invalidNames = new Set(users.map(user => user.name));
+        if (invalidNames.has(req.body.name)) {
+          res.status(400).json({
+            message: 'There exists a user with this name'
+          });
+        } else {
+          next();
+        }
+      })
+      .catch(err => {
+        res.status(500).json({
+          message: err.message
+        });
+      });
   } else {
     res.status(400).json({
       message: 'missing required name field'
