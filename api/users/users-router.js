@@ -55,7 +55,7 @@ router.put('/:id', validateUserId, validateUser, (req, res) => {
   // and another middleware to check that the request body is valid
   res.status(200).json({
     message: `updated user with id ${req.params.id}`,
-    body: req.params.body
+    body: req.body
   });
 });
 
